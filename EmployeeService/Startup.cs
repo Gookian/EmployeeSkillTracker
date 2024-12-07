@@ -1,5 +1,6 @@
 ﻿using EmployeeService.Data;
 using EmployeeService.Repositories;
+using EmployeeService.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeService
@@ -19,6 +20,8 @@ namespace EmployeeService
 
             services.AddSingleton<DbContext, PostgresContext>();
             services.AddSingleton<IPersonRepository, PersonRepository>();
+
+            services.AddHostedService<MigrationService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
