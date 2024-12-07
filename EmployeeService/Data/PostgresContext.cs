@@ -16,7 +16,7 @@ namespace EmployeeService.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connection = _configuration
+            string? connection = _configuration
                 .GetConnectionString("DefaultConnection");
 
             optionsBuilder.UseNpgsql(connection);
