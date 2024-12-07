@@ -1,7 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace EmployeeService.Models
 {
+    [Owned]
     public class Skill
     {
         [MaxLength(100)]

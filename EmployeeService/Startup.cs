@@ -1,4 +1,8 @@
-﻿namespace EmployeeService
+﻿using EmployeeService.Data;
+using EmployeeService.Repositories;
+using Microsoft.EntityFrameworkCore;
+
+namespace EmployeeService
 {
     public class Startup
     {
@@ -12,6 +16,9 @@
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddSingleton<DbContext, PostgresContext>();
+            services.AddSingleton<IPersonRepository, PersonRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
