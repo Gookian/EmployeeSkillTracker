@@ -14,6 +14,8 @@ services:
       - "7079:8080"
       - "7080:8081"
     volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
       - logs_app:/app/Logs
       - ./Logs:/app/Logs
     networks:
