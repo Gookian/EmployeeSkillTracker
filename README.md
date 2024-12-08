@@ -21,5 +21,5 @@ EmployeeSkillTracker — это backend часть одностраничног�
 
 1. Клонируйте репозиторий:
    ```bash
-   git clone https://github.com/username/project-name.git
+   [git clone https://github.com/username/project-name.git](https://github.com/Gookian/EmployeeSkillTracker.git)
    ```
