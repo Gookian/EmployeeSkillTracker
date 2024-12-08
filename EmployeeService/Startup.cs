@@ -3,6 +3,8 @@ using EmployeeService.Repositories;
 using EmployeeService.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Serilog;
+using Serilog.Formatting.Json;
 
 namespace EmployeeService
 {
@@ -13,6 +15,10 @@ namespace EmployeeService
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration)
+                .CreateLogger();
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -31,6 +37,11 @@ namespace EmployeeService
             });
 
             services.AddControllers();
+
+            services.AddLogging(builder =>
+            {
+                builder.AddSerilog();
+            });
 
             services.AddSingleton<DbContext, PostgresContext>();
             services.AddSingleton<IPersonRepository, PersonRepository>();

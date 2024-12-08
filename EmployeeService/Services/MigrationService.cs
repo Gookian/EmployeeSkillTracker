@@ -16,7 +16,7 @@ namespace EmployeeService.Services
         {
             using (var scope = _provider.CreateScope())
             {
-                var dbContext = scope.ServiceProvider.GetRequiredService<PostgresContext>();
+                var dbContext = scope.ServiceProvider.GetRequiredService<DbContext>();
                 await dbContext.Database.MigrateAsync(cancellationToken);
             }
         }

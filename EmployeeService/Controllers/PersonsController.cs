@@ -9,20 +9,19 @@ namespace EmployeeService.Controllers
     public class PersonsController : ControllerBase
     {
         private readonly IPersonRepository _repository;
+        private readonly ILogger<PersonsController> _logger;
 
-        public PersonsController(IPersonRepository repository)
+        public PersonsController(
+            IPersonRepository repository,
+            ILogger<PersonsController> logger)
         {
             _repository = repository;
+            _logger = logger;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<Person>> GetAllPersons()
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
                 IEnumerable<Person> persons = _repository.GetAll();
@@ -30,6 +29,7 @@ namespace EmployeeService.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"Ошибка при получении всех сотрудников.");
                 return StatusCode(500, ex.Message);
             }
         }
@@ -37,11 +37,6 @@ namespace EmployeeService.Controllers
         [HttpGet("{id}")]
         public ActionResult<Person> GetPersonById(long id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
                 Person? person = _repository.GetById(id);
@@ -55,6 +50,7 @@ namespace EmployeeService.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"Ошибка при получении сотрудника по {id}.");
                 return StatusCode(500, ex.Message);
             }
         }
@@ -62,11 +58,6 @@ namespace EmployeeService.Controllers
         [HttpPost]
         public ActionResult<Person> CreatePerson([FromBody] Person person)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
                 _repository.Add(person);
@@ -74,6 +65,7 @@ namespace EmployeeService.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"Ошибка при создании сотрудника.");
                 return StatusCode(500, ex.Message);
             }
         }
@@ -81,11 +73,6 @@ namespace EmployeeService.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdatePerson(long id, [FromBody] Person person)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
                 Person? existing = _repository.GetById(id);
@@ -102,6 +89,7 @@ namespace EmployeeService.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"Ошибка при обновлении данных сотрудника с {id}.");
                 return StatusCode(500, ex.Message);
             }
         }
@@ -109,11 +97,6 @@ namespace EmployeeService.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeletePerson(long id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
                 Person? person = _repository.GetById(id);
@@ -129,6 +112,7 @@ namespace EmployeeService.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"Ошибка при удалении сотрудника по {id}.");
                 return StatusCode(500, ex.Message);
             }
         }
