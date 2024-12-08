@@ -6,7 +6,7 @@ namespace EmployeeService.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class PersonsController : ControllerBase
+    public class PersonsController : ControllerBase, IPersonController
     {
         private readonly IPersonRepository _repository;
         private readonly ILogger<PersonsController> _logger;
