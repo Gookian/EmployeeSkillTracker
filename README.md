@@ -23,7 +23,10 @@ EmployeeSkillTracker — это backend часть одностраничног�
    ```bash
    git clone https://github.com/Gookian/EmployeeSkillTracker.git
    ```
-   
-2. Открыть проект в Visual Studio 2022;
+2. Создание сети для Docker:
+   ```bash
+   docker network create employee_skill_tracker_network
+   ```
+3. Открыть проект в Visual Studio 2022;
 
-3. Запустьть проект docker-compose.
+4. Запустьть проект docker-compose.
