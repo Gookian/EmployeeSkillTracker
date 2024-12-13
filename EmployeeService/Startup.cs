@@ -1,10 +1,11 @@
 ﻿using EmployeeService.Data;
+using EmployeeService.Middlewares;
 using EmployeeService.Repositories;
 using EmployeeService.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using Serilog;
-using Serilog.Formatting.Json;
+using NLog;
+using NLog.Extensions.Logging;
 
 namespace EmployeeService
 {
@@ -16,9 +17,7 @@ namespace EmployeeService
         {
             Configuration = configuration;
 
-            Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(configuration)
-                .CreateLogger();
+            LogManager.Setup().LoadConfigurationFromFile("Nlog.config");
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -36,15 +35,19 @@ namespace EmployeeService
                 });
             });
 
-            services.AddControllers();
-
             services.AddLogging(builder =>
             {
-                builder.AddSerilog();
+                builder.ClearProviders();
+                builder.AddNLog();
             });
 
-            services.AddSingleton<DbContext, PostgresContext>();
-            services.AddSingleton<IPersonRepository, PersonRepository>();
+            services.AddDbContext<DbContext, PostgresContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<IPersonRepository, PersonRepository>();
+            services.AddScoped<IPersonService, PersonService>();
+
+            services.AddControllers();
 
             services.AddHostedService<MigrationService>();
         }
@@ -54,13 +57,12 @@ namespace EmployeeService
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
-                options.SwaggerEndpoint(
-                    "swagger/v1/swagger.json",
-                    "Employee sevice API");
+                options.SwaggerEndpoint("swagger/v1/swagger.json", "Employee Service API");
                 options.RoutePrefix = "";
             });
 
-            app.UseHttpsRedirection();
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>

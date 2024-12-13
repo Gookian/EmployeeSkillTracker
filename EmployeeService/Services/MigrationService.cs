@@ -1,23 +1,33 @@
-﻿using EmployeeService.Data;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeService.Services
 {
     public class MigrationService : IHostedService
     {
         private readonly IServiceProvider _provider;
+        private readonly ILogger<MigrationService> _logger;
 
-        public MigrationService(IServiceProvider serviceProvider)
+        public MigrationService(
+            IServiceProvider provider,
+            ILogger<MigrationService> logger)
         {
-            _provider = serviceProvider;
+            _provider = provider;
+            _logger = logger;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            using (var scope = _provider.CreateScope())
+            try
             {
-                var dbContext = scope.ServiceProvider.GetRequiredService<DbContext>();
-                await dbContext.Database.MigrateAsync(cancellationToken);
+                using (var scope = _provider.CreateScope())
+                {
+                    var context = scope.ServiceProvider.GetRequiredService<DbContext>();
+                    await context.Database.MigrateAsync(cancellationToken);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Не удалось применить миграцию: {Message}", ex.Message);
             }
         }
 

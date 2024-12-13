@@ -6,10 +6,9 @@ namespace EmployeeService.Models
     [Owned]
     public class Skill
     {
-        [MaxLength(100)]
         public required string Name { get; set; }
 
-        [Range(0, 10)]
+        [Range(1, 10)]
         public required byte Level { get; set; }
     }
 }

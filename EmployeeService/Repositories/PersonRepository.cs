@@ -5,8 +5,8 @@ namespace EmployeeService.Repositories
 {
     public class PersonRepository : IPersonRepository
     {
-        private DbContext _context;
-        private DbSet<Person> _persons;
+        private readonly DbContext _context;
+        private readonly DbSet<Person> _persons;
 
         public PersonRepository(DbContext context)
         {
@@ -14,30 +14,32 @@ namespace EmployeeService.Repositories
             _persons = context.Set<Person>();
         }
 
-        public IEnumerable<Person> GetAll()
+        public async Task<IEnumerable<Person>> GetAllAsync()
         {
-            return _persons
+            return await _persons
+                .AsNoTracking()
                 .Include(p => p.Skill)
-                .ToList();
+                .ToListAsync();
         }
 
-        public Person? GetById(long id)
+        public async Task<Person?> GetByIdAsync(long id)
         {
-            return _persons
+            return await _persons
+                .AsNoTracking()
                 .Include(p => p.Skill)
-                .FirstOrDefault(p => p.Id == id);
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public void Add(Person person)
+        public async Task AddAsync(Person person)
         {
-            _persons.Add(person);
-            _context.SaveChanges();
+            await _persons.AddAsync(person);
+            await _context.SaveChangesAsync();
         }
 
-        public void Update(Person person)
+        public async Task UpdateAsync(Person person)
         {
-            Person? existing = _persons
-                .FirstOrDefault(p => p.Id == person.Id);
+            var existing = await _persons
+                .FirstOrDefaultAsync(p => p.Id == person.Id);
 
             if (existing != null)
             {
@@ -50,13 +52,13 @@ namespace EmployeeService.Repositories
                 throw new Exception();
             }
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(long id)
+        public async Task DeleteAsync(long id)
         {
-            Person? person = _persons
-                .FirstOrDefault(p => p.Id == id);
+            var person = await _persons
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             if (person != null)
             {
@@ -67,7 +69,7 @@ namespace EmployeeService.Repositories
                 throw new Exception();
             }
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -1,120 +1,69 @@
-﻿using EmployeeService.Models;
-using EmployeeService.Repositories;
+﻿using EmployeeService.Dto;
+using EmployeeService.Models;
+using EmployeeService.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeService.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class PersonsController : ControllerBase, IPersonController
+    public class PersonsController : ControllerBase
     {
-        private readonly IPersonRepository _repository;
-        private readonly ILogger<PersonsController> _logger;
+        private readonly IPersonService _service;
 
-        public PersonsController(
-            IPersonRepository repository,
-            ILogger<PersonsController> logger)
+        public PersonsController(IPersonService service)
         {
-            _repository = repository;
-            _logger = logger;
+            _service = service;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Person>> GetAllPersons()
+        public async Task<ActionResult<IEnumerable<Person>>> GetAllPersonsAsync()
         {
-            try
-            {
-                IEnumerable<Person> persons = _repository.GetAll();
-                return Ok(persons);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Ошибка при получении всех сотрудников.");
-                return StatusCode(500, ex.Message);
-            }
+            var persons = await _service.GetAllPersonsAsync();
+            return Ok(persons);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Person> GetPersonById(long id)
+        public async Task<ActionResult<Person>> GetPersonByIdAsync(long id)
         {
-            try
+            var person = await _service.GetPersonByIdAsync(id);
+            if (person == null)
             {
-                Person? person = _repository.GetById(id);
-
-                if (person == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(person);
+                return NotFound();
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Ошибка при получении сотрудника по {id}.");
-                return StatusCode(500, ex.Message);
-            }
+
+            return Ok(person);
         }
 
         [HttpPost]
-        public ActionResult<Person> CreatePerson([FromBody] Person person)
+        public async Task<IActionResult> CreatePersonAsync([FromBody] PersonDTO personDto)
         {
-            try
-            {
-                _repository.Add(person);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Ошибка при создании сотрудника.");
-                return StatusCode(500, ex.Message);
-            }
+            await _service.CreatePersonAsync(personDto);
+            return Ok();
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdatePerson(long id, [FromBody] Person person)
+        public async Task<IActionResult> UpdatePersonAsync(long id, [FromBody] PersonDTO personDto)
         {
-            try
+            var updated = await _service.UpdatePersonAsync(id, personDto);
+            if (!updated)
             {
-                Person? existing = _repository.GetById(id);
-
-                if (existing == null)
-                {
-                    return NotFound();
-                }
-
-                person.Id = id;
-
-                _repository.Update(person);
-                return Ok();
+                return NotFound();
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Ошибка при обновлении данных сотрудника с {id}.");
-                return StatusCode(500, ex.Message);
-            }
+
+            return Ok();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeletePerson(long id)
+        public async Task<IActionResult> DeletePersonAsync(long id)
         {
-            try
+            var deleted = await _service.DeletePersonAsync(id);
+            if (!deleted)
             {
-                Person? person = _repository.GetById(id);
-
-                if (person == null)
-                {
-                    return NotFound();
-                }
-
-                _repository.Delete(id);
-
-                return Ok();
+                return NotFound();
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Ошибка при удалении сотрудника по {id}.");
-                return StatusCode(500, ex.Message);
-            }
+
+            return Ok();
         }
     }
 }

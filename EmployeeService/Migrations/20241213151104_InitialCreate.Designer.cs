@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EmployeeService.Migrations
 {
     [DbContext(typeof(PostgresContext))]
-    [Migration("20241207145211_InitialCreate")]
+    [Migration("20241213151104_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -34,13 +34,11 @@ namespace EmployeeService.Migrations
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -65,8 +63,7 @@ namespace EmployeeService.Migrations
 
                             b1.Property<string>("Name")
                                 .IsRequired()
-                                .HasMaxLength(100)
-                                .HasColumnType("character varying(100)");
+                                .HasColumnType("text");
 
                             b1.HasKey("PersonId", "Id");
 

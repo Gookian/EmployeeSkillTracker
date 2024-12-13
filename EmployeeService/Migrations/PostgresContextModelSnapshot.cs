@@ -31,13 +31,11 @@ namespace EmployeeService.Migrations
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -62,8 +60,7 @@ namespace EmployeeService.Migrations
 
                             b1.Property<string>("Name")
                                 .IsRequired()
-                                .HasMaxLength(100)
-                                .HasColumnType("character varying(100)");
+                                .HasColumnType("text");
 
                             b1.HasKey("PersonId", "Id");
 

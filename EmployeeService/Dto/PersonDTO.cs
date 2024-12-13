@@ -1,16 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EmployeeService.Models;
 
-namespace EmployeeService.Models
+namespace EmployeeService.Dto
 {
-    public class Person
+    public class PersonDTO
     {
-        [Key]
-        public long Id { get; set; }
-
         public required string Name { get; set; }
-
         public required string DisplayName { get; set; }
-
         public required ICollection<Skill> Skill { get; set; }
     }
 }

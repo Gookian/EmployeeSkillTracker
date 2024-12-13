@@ -11,21 +11,21 @@ namespace EmployeeService.Repositories
         /// Получает список всех сотрудников из базы данных с учетом их скилов.
         /// </summary>
         /// <returns>Список всех сотрудников <see cref="System.Collections.Generic.IEnumerable{Person}" />.</returns>
-        IEnumerable<Person> GetAll();
+        Task<IEnumerable<Person>> GetAllAsync();
 
         /// <summary>
         /// Находит сотрудника по его идентификатору <see cref="System.Int64" /> <paramref name="id" /> в базе данных.
         /// </summary>
         /// <param name="id">Идентификатор сотрудника.</param>
         /// <returns>Сотрудника <see cref="Person" /> с заданным идентификатором или <c>null</c>, если сотрудник не найден.</returns>
-        Person? GetById(long id);
+        Task<Person?> GetByIdAsync(long id);
 
         /// <summary>
         /// Добавляет нового сотрудника <paramref name="person" /> в базу данных.
         /// </summary>
         /// <param name="person">Объект сотрудника для добавления.</param>
         /// <returns>Никакого значения не возвращает.</returns>
-        void Add(Person person);
+        Task AddAsync(Person person);
 
         /// <summary>
         /// Обновляет данные существующего сотрудника <paramref name="person" />.
@@ -33,7 +33,7 @@ namespace EmployeeService.Repositories
         /// <param name="person">Обновлённые данные сотрудника.</param>
         /// <returns>Никакого значения не возвращает. Если сотрудник с заданным идентификатором не найден, выбрасывает исключение.</returns>
         /// <exception cref="Exception" />
-        void Update(Person person);
+        Task UpdateAsync(Person person);
 
         /// <summary>
         /// Удаляет сотрудника по его идентификатору <see cref="System.Int64" /> <paramref name="id" />.
@@ -41,6 +41,6 @@ namespace EmployeeService.Repositories
         /// <param name="id">Идентификатор сотрудника для удаления.</param>
         /// <returns>Никакого значения не возвращает. Если сотрудник с заданным идентификатором не найден, выбрасывает исключение.</returns>
         /// <exception cref="Exception" />
-        void Delete(long id);
+        Task DeleteAsync(long id);
     }
 }

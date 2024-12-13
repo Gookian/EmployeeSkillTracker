@@ -4,7 +4,7 @@
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
     <DockerPublishLocally>False</DockerPublishLocally>
-    <ProjectGuid>4aa67ab6-5709-4ca9-a299-f157b89a36de</ProjectGuid>
+    <ProjectGuid>259a2f67-7e64-41d7-a52d-80e11ff1e64e</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
     <DockerServiceName>employeeservice</DockerServiceName>

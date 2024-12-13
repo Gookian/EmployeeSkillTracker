@@ -1,4 +1,4 @@
-using Serilog;
+using NLog.Web;
 
 namespace EmployeeService
 {
@@ -12,7 +12,7 @@ namespace EmployeeService
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
             return Host.CreateDefaultBuilder(args)
-                .UseSerilog()
+                .UseNLog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

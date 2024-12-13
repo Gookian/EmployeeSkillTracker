@@ -5,21 +5,10 @@ namespace EmployeeService.Data
 {
     public class PostgresContext : DbContext
     {
-        private readonly IConfiguration _configuration;
+        public required DbSet<Person> Persons { get; set; }
 
-        public DbSet<Person> Persons { get; set; }
-
-        public PostgresContext(IConfiguration configuration)
+        public PostgresContext(DbContextOptions<PostgresContext> options) : base(options)
         {
-            _configuration = configuration;
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            string? connection = _configuration
-                .GetConnectionString("DefaultConnection");
-
-            optionsBuilder.UseNpgsql(connection);
         }
     }
 }
