@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace EmployeeService.Migrations
 {
-    [DbContext(typeof(PostgresContext))]
-    [Migration("20241213151104_InitialCreate")]
+    [DbContext(typeof(ApplicationDbContext))]
+    [Migration("20241223153920_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -47,7 +47,7 @@ namespace EmployeeService.Migrations
 
             modelBuilder.Entity("EmployeeService.Models.Person", b =>
                 {
-                    b.OwnsMany("EmployeeService.Models.Skill", "Skill", b1 =>
+                    b.OwnsMany("EmployeeService.Models.Skill", "Skills", b1 =>
                         {
                             b1.Property<long>("PersonId")
                                 .HasColumnType("bigint");
@@ -73,7 +73,7 @@ namespace EmployeeService.Migrations
                                 .HasForeignKey("PersonId");
                         });
 
-                    b.Navigation("Skill");
+                    b.Navigation("Skills");
                 });
 #pragma warning restore 612, 618
         }

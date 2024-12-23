@@ -9,8 +9,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace EmployeeService.Migrations
 {
-    [DbContext(typeof(PostgresContext))]
-    partial class PostgresContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(ApplicationDbContext))]
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -44,7 +44,7 @@ namespace EmployeeService.Migrations
 
             modelBuilder.Entity("EmployeeService.Models.Person", b =>
                 {
-                    b.OwnsMany("EmployeeService.Models.Skill", "Skill", b1 =>
+                    b.OwnsMany("EmployeeService.Models.Skill", "Skills", b1 =>
                         {
                             b1.Property<long>("PersonId")
                                 .HasColumnType("bigint");
@@ -70,7 +70,7 @@ namespace EmployeeService.Migrations
                                 .HasForeignKey("PersonId");
                         });
 
-                    b.Navigation("Skill");
+                    b.Navigation("Skills");
                 });
 #pragma warning restore 612, 618
         }

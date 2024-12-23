@@ -11,6 +11,6 @@ namespace EmployeeService.Models
 
         public required string DisplayName { get; set; }
 
-        public required ICollection<Skill> Skill { get; set; }
+        public required ICollection<Skill> Skills { get; set; }
     }
 }

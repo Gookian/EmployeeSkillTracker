@@ -6,6 +6,6 @@ namespace EmployeeService.Dto
     {
         public required string Name { get; set; }
         public required string DisplayName { get; set; }
-        public required ICollection<Skill> Skill { get; set; }
+        public required ICollection<Skill> Skills { get; set; }
     }
 }

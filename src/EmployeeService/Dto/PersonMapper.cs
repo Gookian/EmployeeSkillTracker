@@ -11,7 +11,7 @@ namespace EmployeeService.Dto
                 Id = id,
                 Name = dto.Name,
                 DisplayName = dto.DisplayName,
-                Skill = dto.Skill
+                Skills = dto.Skills
             };
         }
     }

@@ -18,7 +18,7 @@ namespace EmployeeService.Repositories
         {
             return await _persons
                 .AsNoTracking()
-                .Include(p => p.Skill)
+                .Include(p => p.Skills)
                 .ToListAsync();
         }
 
@@ -26,7 +26,7 @@ namespace EmployeeService.Repositories
         {
             return await _persons
                 .AsNoTracking()
-                .Include(p => p.Skill)
+                .Include(p => p.Skills)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
@@ -45,7 +45,7 @@ namespace EmployeeService.Repositories
             {
                 existing.Name = person.Name;
                 existing.DisplayName = person.DisplayName;
-                existing.Skill = person.Skill;
+                existing.Skills = person.Skills;
             }
             else
             {
