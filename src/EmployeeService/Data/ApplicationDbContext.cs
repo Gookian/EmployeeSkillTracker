@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeService.Data
 {
-    public class PostgresContext : DbContext
+    public class ApplicationDbContext : DbContext
     {
         public required DbSet<Person> Persons { get; set; }
 
-        public PostgresContext(DbContextOptions<PostgresContext> options) : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
     }

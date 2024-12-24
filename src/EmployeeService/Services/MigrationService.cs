@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EmployeeService.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeService.Services
 {
@@ -21,7 +22,7 @@ namespace EmployeeService.Services
             {
                 using (var scope = _provider.CreateScope())
                 {
-                    var context = scope.ServiceProvider.GetRequiredService<DbContext>();
+                    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                     await context.Database.MigrateAsync(cancellationToken);
                 }
             }
